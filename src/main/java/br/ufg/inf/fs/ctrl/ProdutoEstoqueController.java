@@ -6,12 +6,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufg.inf.fs.business.ProdutoEstoqueBusiness;
+import br.ufg.inf.fs.dto.ProdutoEstoqueInsert;
+import br.ufg.inf.fs.dto.ProdutoEstoqueLibera;
 import br.ufg.inf.fs.entities.ProdutoEstoque;
 
 @RestController
@@ -22,8 +25,8 @@ public class ProdutoEstoqueController {
 	private ProdutoEstoqueBusiness business;
 	
 	@PostMapping
-	public ResponseEntity<ProdutoEstoque> insert(@RequestBody ProdutoEstoque produtoEstoque) {
-		Optional<ProdutoEstoque> produtoEstoqueOptional = business.insert(produtoEstoque);
+	public ResponseEntity<ProdutoEstoque> insert(@RequestBody ProdutoEstoqueInsert dto) {
+		Optional<ProdutoEstoque> produtoEstoqueOptional = business.insert(dto);
 		
 		if(produtoEstoqueOptional.isEmpty()) {
 			// return ResponseEntity.badRequest();
@@ -34,9 +37,32 @@ public class ProdutoEstoqueController {
 		URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/produtoEstoque/{id}")
-                .buildAndExpand(produtoEstoque.getIdProdutoEstoque())
+                .buildAndExpand(retorno.getIdProdutoEstoque())
                 .toUri(); 
 		
 		return ResponseEntity.created(uri).body(retorno);
+	}
+	
+	@PutMapping("/reservar")
+	public ResponseEntity<ProdutoEstoque> reservaEstoque(@RequestBody ProdutoEstoqueInsert dto) {
+		Optional<ProdutoEstoque> produtoEstoqueOptional = business.reservarEstoque(dto);
+		
+		if(produtoEstoqueOptional.isEmpty()) {
+			// return ResponseEntity.badRequest();
+		}
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping("/liberar")
+	public ResponseEntity<ProdutoEstoque> liberaEstoque(@RequestBody ProdutoEstoqueLibera dto) {
+		Optional<ProdutoEstoque> produtoEstoqueOptional = business.liberarEstoque(dto);
+		
+		if(produtoEstoqueOptional.isEmpty()) {
+			// return ResponseEntity.badRequest();
+		}
+		
+		ProdutoEstoque retorno = produtoEstoqueOptional.get();
+		return ResponseEntity.ok().build();
 	}
 }

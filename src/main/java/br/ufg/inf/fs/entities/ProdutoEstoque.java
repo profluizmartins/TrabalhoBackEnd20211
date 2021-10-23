@@ -36,14 +36,12 @@ public class ProdutoEstoque  implements Serializable{
 		super();
 	}
 
-	public ProdutoEstoque(Integer idProdutoEstoque, Produto produto, Integer qtdEstoque, Integer qtdReservada) {
-		super();
-		this.idProdutoEstoque = idProdutoEstoque;
+	public ProdutoEstoque(Produto produto, Integer qtdEstoque, Integer qtdReservada) {
 		this.produto = produto;
 		this.qtdEstoque = qtdEstoque;
 		this.qtdReservada = qtdReservada;
 	}
-
+	
 	public Integer getIdProdutoEstoque() {
 		return idProdutoEstoque;
 	}
