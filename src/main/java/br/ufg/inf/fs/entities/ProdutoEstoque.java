@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,7 +22,7 @@ public class ProdutoEstoque  implements Serializable{
 	@Column(name="id_produto_estoque")
 	private Integer idProdutoEstoque;
 	
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="produto_id")
 	private Produto produto;
 	
