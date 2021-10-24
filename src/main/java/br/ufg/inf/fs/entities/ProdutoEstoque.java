@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import br.ufg.inf.fs.validations.exceptions.BadRequestException;
+
 @Entity
 @Table(name="tb_produto_estoque")
 public class ProdutoEstoque  implements Serializable{
@@ -62,16 +64,39 @@ public class ProdutoEstoque  implements Serializable{
 		return qtdEstoque;
 	}
 
-	public void setQtdEstoque(Integer qtdEstoque) {
-		this.qtdEstoque = qtdEstoque;
+	public void adicionarQtdEstoque(Integer qtdEstoque) {
+		this.qtdEstoque += qtdEstoque;
+	}
+	
+	public void removerQtdEstoque(Integer qtdEstoque) {
+		if((this.getQtdEstoque() - qtdEstoque) < 0) {
+			throw new BadRequestException("Não é possível retirar esta quantidade do estoque");
+		}
+		this.qtdEstoque -= qtdEstoque;
 	}
 
 	public Integer getQtdReservada() {
 		return qtdReservada;
 	}
 
-	public void setQtdReservada(Integer qtdReservada) {
-		this.qtdReservada = qtdReservada;
+	public void adicionarQtdReservada(Integer qtdReservada) {
+		this.removerQtdEstoque(qtdReservada);
+		
+		this.qtdReservada += qtdReservada;
+	}
+	
+	public void removerQtdReservada(Integer qtdReservada, boolean isCompra) {
+		if(this.getQtdReservada() - qtdReservada < 0) {
+			throw new BadRequestException("Não há quantidade reservada suficiente para remover");
+		}
+		
+		this.qtdReservada -= qtdReservada;
+		
+		if(isCompra) {
+			return;
+		}
+		
+		this.adicionarQtdEstoque(qtdReservada);
 	}
 	
 

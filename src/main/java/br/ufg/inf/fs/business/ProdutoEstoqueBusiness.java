@@ -12,6 +12,7 @@ import br.ufg.inf.fs.dto.ProdutoEstoqueLibera;
 import br.ufg.inf.fs.entities.ProdutoEstoque;
 import br.ufg.inf.fs.repositories.ProdutoEstoqueRepository;
 import br.ufg.inf.fs.repositories.ProdutoRepository;
+import br.ufg.inf.fs.validations.exceptions.NotFoundException;
 
 @Service
 public class ProdutoEstoqueBusiness {
@@ -30,7 +31,7 @@ public class ProdutoEstoqueBusiness {
 			return Optional.of(repository.save(entity));
 		}
 		ProdutoEstoque produtoEstoque = possivelProdutoEstoque.get();
-		produtoEstoque.setQtdEstoque(produtoEstoque.getQtdEstoque() + dto.getQuantidade());
+		produtoEstoque.adicionarQtdEstoque(dto.getQuantidade());
 		return Optional.of(produtoEstoque);
 	}
 	
@@ -38,11 +39,10 @@ public class ProdutoEstoqueBusiness {
 	public Optional<ProdutoEstoque> reservarEstoque(ProdutoEstoqueInsert dto) {
 		Optional<ProdutoEstoque> possivelProdutoEstoque = repository.findByProdutoIdProduto(dto.getProduto());
 		if (possivelProdutoEstoque.isEmpty()) {
-			throw new RuntimeException();
+			throw new NotFoundException("ProdutoEstoque não foi encontrado para o Produto informado");
 		}
 		ProdutoEstoque produtoEstoque = possivelProdutoEstoque.get();
-		produtoEstoque.setQtdReservada(produtoEstoque.getQtdReservada() + dto.getQuantidade()); // fazer validações no setter
-		produtoEstoque.setQtdEstoque(produtoEstoque.getQtdEstoque() - dto.getQuantidade()); // fazer validações no setter
+		produtoEstoque.adicionarQtdReservada(dto.getQuantidade());
 		return Optional.of(produtoEstoque);
 	}
 	
@@ -51,18 +51,12 @@ public class ProdutoEstoqueBusiness {
 		Optional<ProdutoEstoque> possivelProdutoEstoque = repository.findByProdutoIdProduto(dto.getProduto());
 		
 		if (possivelProdutoEstoque.isEmpty()) {
-			throw new RuntimeException();
+			throw new NotFoundException("ProdutoEstoque não foi encontrado para o Produto informado");
 		}
 		
 		ProdutoEstoque produtoEstoque = possivelProdutoEstoque.get();
 		
-		if (dto.getIsCompra()) {
-			produtoEstoque.setQtdReservada(produtoEstoque.getQtdReservada() - dto.getQuantidade());
-			return Optional.of(produtoEstoque);
-		}
-		
-		produtoEstoque.setQtdReservada(produtoEstoque.getQtdReservada() - dto.getQuantidade());
-		produtoEstoque.setQtdEstoque(produtoEstoque.getQtdEstoque() + dto.getQuantidade());
+		produtoEstoque.removerQtdReservada(dto.getQuantidade(), dto.getIsCompra());
 		return Optional.of(produtoEstoque);
 	}
 }

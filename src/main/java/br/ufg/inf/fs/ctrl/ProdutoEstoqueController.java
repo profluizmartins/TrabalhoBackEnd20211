@@ -28,10 +28,6 @@ public class ProdutoEstoqueController {
 	public ResponseEntity<ProdutoEstoque> insert(@RequestBody ProdutoEstoqueInsert dto) {
 		Optional<ProdutoEstoque> produtoEstoqueOptional = business.insert(dto);
 		
-		if(produtoEstoqueOptional.isEmpty()) {
-			// return ResponseEntity.badRequest();
-		}
-		
 		ProdutoEstoque retorno = produtoEstoqueOptional.get();
 		
 		URI uri = ServletUriComponentsBuilder
@@ -47,22 +43,13 @@ public class ProdutoEstoqueController {
 	public ResponseEntity<ProdutoEstoque> reservaEstoque(@RequestBody ProdutoEstoqueInsert dto) {
 		Optional<ProdutoEstoque> produtoEstoqueOptional = business.reservarEstoque(dto);
 		
-		if(produtoEstoqueOptional.isEmpty()) {
-			// return ResponseEntity.badRequest();
-		}
-		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(produtoEstoqueOptional.get());
 	}
 	
 	@PutMapping("/liberar")
 	public ResponseEntity<ProdutoEstoque> liberaEstoque(@RequestBody ProdutoEstoqueLibera dto) {
 		Optional<ProdutoEstoque> produtoEstoqueOptional = business.liberarEstoque(dto);
 		
-		if(produtoEstoqueOptional.isEmpty()) {
-			// return ResponseEntity.badRequest();
-		}
-		
-		ProdutoEstoque retorno = produtoEstoqueOptional.get();
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(produtoEstoqueOptional.get());
 	}
 }
