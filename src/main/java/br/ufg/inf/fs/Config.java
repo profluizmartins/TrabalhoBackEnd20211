@@ -1,0 +1,5 @@
+package br.ufg.inf.fs;
+
+public class Config {
+
+}

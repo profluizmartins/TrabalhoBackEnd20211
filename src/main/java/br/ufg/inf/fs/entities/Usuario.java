@@ -21,10 +21,6 @@ public class Usuario implements Serializable{
 	private String login;
 	
 	private String senha;
-	
-	@OneToOne
-	@JoinColumn(name="pessoa_id")
-	private Pessoa pessoa;
 
 	@ManyToMany
 	@JoinTable(name="usuario_regra",
@@ -32,13 +28,12 @@ public class Usuario implements Serializable{
 		inverseJoinColumns = @JoinColumn(name="regra", referencedColumnName = "regra")
 	)
 	private List<Regra> regras;
-	
+
 	
 	public Usuario(String login, String senha, Pessoa pessoa, List<Regra> regras) {
 		super();
 		this.login = login;
 		this.senha = senha;
-		this.pessoa = pessoa;
 		this.regras = regras;
 	}
 
@@ -52,14 +47,6 @@ public class Usuario implements Serializable{
 
 	public void setLogin(String login) {
 		this.login = login;
-	}
-
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
 	}
 
 	public String getSenha() {
