@@ -19,10 +19,6 @@ public class Pessoa implements Serializable{
 	
 	private String endereco;
 
-	@OneToOne
-	@JoinColumn(name="user_login")
-	private Usuario usuario;
-
 	public Pessoa() {
 		super();
 	}
@@ -57,5 +53,13 @@ public class Pessoa implements Serializable{
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-		
+
+	@Override
+	public String toString() {
+		return "Pessoa{" +
+				"idPessoa=" + idPessoa +
+				", nome='" + nome + '\'' +
+				", endereco='" + endereco + '\'' +
+				'}';
+	}
 }
