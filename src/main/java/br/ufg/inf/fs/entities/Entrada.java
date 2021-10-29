@@ -1,6 +1,7 @@
 package br.ufg.inf.fs.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ public class Entrada implements Serializable{
 	@Column(name="id_entrada")
 	private Integer idEntrada;
 	
-	private Date dataEntrada;
+	private LocalDate dataEntrada;
 	
 	@ManyToOne
 	@JoinColumn(name="pessoa_juridica_id")
@@ -36,7 +37,7 @@ public class Entrada implements Serializable{
 		super();
 	}
 
-	public Entrada(Integer idEntrada, Date dataEntrada, PessoaJuridica fornecedor, Boolean concluido) {
+	public Entrada(Integer idEntrada, LocalDate dataEntrada, PessoaJuridica fornecedor, Boolean concluido) {
 		super();
 		this.idEntrada = idEntrada;
 		this.dataEntrada = dataEntrada;
@@ -52,11 +53,11 @@ public class Entrada implements Serializable{
 		this.idEntrada = idEntrada;
 	}
 
-	public Date getDataEntrada() {
+	public LocalDate getDataEntrada() {
 		return dataEntrada;
 	}
 
-	public void setDataEntrada(Date dataEntrada) {
+	public void setDataEntrada(LocalDate dataEntrada) {
 		this.dataEntrada = dataEntrada;
 	}
 

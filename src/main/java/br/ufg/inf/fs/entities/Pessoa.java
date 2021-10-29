@@ -2,12 +2,7 @@ package br.ufg.inf.fs.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="tb_pessoa")
@@ -17,26 +12,23 @@ public class Pessoa implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_pessoa")
+	@Column(name="id_user")
 	private Integer idPessoa;
 	
 	private String nome;
 	
 	private String endereco;
 
-
 	public Pessoa() {
 		super();
 	}
 
-	
 	public Pessoa(Integer idPessoa, String nome, String endereco) {
 		super();
 		this.idPessoa = idPessoa;
 		this.nome = nome;
 		this.endereco = endereco;
 	}
-
 
 	public Integer getIdPessoa() {
 		return idPessoa;
@@ -61,5 +53,13 @@ public class Pessoa implements Serializable{
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-		
+
+	@Override
+	public String toString() {
+		return "Pessoa{" +
+				"idPessoa=" + idPessoa +
+				", nome='" + nome + '\'' +
+				", endereco='" + endereco + '\'' +
+				'}';
+	}
 }
