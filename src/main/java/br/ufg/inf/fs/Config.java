@@ -71,9 +71,8 @@ public class Config implements CommandLineRunner {
         usuarioRepository.save(u1);
 
         List<Regra> regras2 = new ArrayList<>();
-        //regras2.add(r2);
 
-        Usuario u2 = new Usuario("gabiru", "senha",p2, regras2);
+        Usuario u2 = new Usuario("gabriel", "senha",p2, regras2);
         usuarioRepository.save(u2);
 
     }
