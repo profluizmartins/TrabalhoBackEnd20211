@@ -9,30 +9,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_venda_fatura")
-public class VendaFatura  implements Serializable{
+@Table(name = "tb_venda_fatura")
+public class VendaFatura implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_venda_fatura")
+	@Column(name = "id_venda_fatura")
 	private Integer idVendaFatura;
-	
-	
+
 	@ManyToOne
-	@JoinColumn(name="venda_id")
+	@JoinColumn(name = "venda_id")
 	private Venda venda;
-		
-	@Column(name="valor_venda")
+
+	@Column(name = "valor_venda")
 	private Double valorVenda;
-	
+
 	private Boolean quitado;
-	
+
 	private Double desconto;
 
 	public VendaFatura() {
@@ -87,5 +85,5 @@ public class VendaFatura  implements Serializable{
 	public void setDesconto(Double desconto) {
 		this.desconto = desconto;
 	}
-	
+
 }

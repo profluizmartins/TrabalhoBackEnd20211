@@ -9,31 +9,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_venda_produto")
-public class VendaProduto  implements Serializable{
+@Table(name = "tb_venda_produto")
+public class VendaProduto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_venda_produto")
+	@Column(name = "id_venda_produto")
 	private Integer idVendaProduto;
-	
+
 	@ManyToOne
-	@JoinColumn(name="venda_id")
+	@JoinColumn(name = "venda_id")
 	private Venda venda;
-	
+
 	@ManyToOne
-	@JoinColumn(name="produto_id")
+	@JoinColumn(name = "produto_id")
 	private Produto produto;
-	
-	@Column(name="preco_venda_produto")
+
+	@Column(name = "preco_venda_produto")
 	private Double precoVendaProduto;
-	
+
 	private Integer quantidade;
 
 	public VendaProduto() {
@@ -89,5 +88,5 @@ public class VendaProduto  implements Serializable{
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-	
+
 }

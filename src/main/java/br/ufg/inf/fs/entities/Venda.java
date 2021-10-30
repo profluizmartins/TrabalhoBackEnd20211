@@ -2,7 +2,6 @@ package br.ufg.inf.fs.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,29 +15,29 @@ import javax.persistence.Table;
 import br.ufg.inf.fs.enums.TipoPagamento;
 
 @Entity
-@Table(name="tb_venda")
-public class Venda  implements Serializable{
+@Table(name = "tb_venda")
+public class Venda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_venda")
+	@Column(name = "id_venda")
 	private Integer idVenda;
-	
+
 	@OneToOne
-	@JoinColumn(name="comprador_id")
+	@JoinColumn(name = "comprador_id")
 	private Pessoa comprador;
 
-	@Column(name="data_venda")
+	@Column(name = "data_venda")
 	private LocalDate dataVenda;
-	
+
 	private Boolean concluido;
-	
-	@Column(name="tipo_pagamento")
+
+	@Column(name = "tipo_pagamento")
 	private TipoPagamento tipoPagamento;
-	
-	@Column(name="qtd_prestacao")
+
+	@Column(name = "qtd_prestacao")
 	private Integer qtdPrestacao;
 
 	public Venda() {
@@ -103,5 +102,5 @@ public class Venda  implements Serializable{
 	public void setQtdPrestacao(Integer qtdPrestacao) {
 		this.qtdPrestacao = qtdPrestacao;
 	}
-	
+
 }

@@ -1,38 +1,36 @@
 package br.ufg.inf.fs.entities;
 
-import br.ufg.inf.fs.enums.TipoPagamento;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_usuario")
-public class Usuario implements Serializable{
+@Table(name = "tb_usuario")
+public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String login;
-	
+
 	private String senha;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="usuario_regra",
-		joinColumns =  @JoinColumn(name="login", referencedColumnName = "login"),
-		inverseJoinColumns = @JoinColumn(name="regra", referencedColumnName = "regra")
-	)
+	@JoinTable(name = "usuario_regra", joinColumns = @JoinColumn(name = "login", referencedColumnName = "login"), inverseJoinColumns = @JoinColumn(name = "regra", referencedColumnName = "regra"))
 	private List<Regra> regras;
 
 	@OneToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private Pessoa pessoa;
 
-	
 	public Usuario(String login, String senha, Pessoa pessoa, List<Regra> regras) {
 		super();
 		this.login = login;
@@ -40,10 +38,10 @@ public class Usuario implements Serializable{
 		this.pessoa = pessoa;
 		System.out.println("*********************************");
 		System.out.println("Tamnho da lista:" + regras.size());
-		if(regras.size() == 0 || regras == null || notContainsComum(regras)){
+		if (regras.size() == 0 || regras == null || notContainsComum(regras)) {
 			this.regras = regras;
 			this.regras.add(new Regra("Comum"));
-		} else{
+		} else {
 			this.regras = regras;
 		}
 
@@ -77,24 +75,25 @@ public class Usuario implements Serializable{
 		this.regras = regras;
 	}
 
-	public Pessoa getPessoa() { return pessoa; }
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
 
-	public void setPessoa(Pessoa pessoa) { this.pessoa = pessoa; }
-	
-	private boolean notContainsComum(List<Regra> regras){
-		for(int i = 0; i < regras.size(); i++){
-			if(regras.get(i).getRegra().equals("COMUM")) return false;
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
+	private boolean notContainsComum(List<Regra> regras) {
+		for (int i = 0; i < regras.size(); i++) {
+			if (regras.get(i).getRegra().equals("COMUM"))
+				return false;
 		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Usuario{" +
-				"login='" + login + '\'' +
-				", senha='" + senha + '\'' +
-				", regras=" + regras +
-				", pessoa=" + pessoa +
-				'}';
+		return "Usuario{" + "login='" + login + '\'' + ", senha='" + senha + '\'' + ", regras=" + regras + ", pessoa="
+				+ pessoa + '}';
 	}
 }

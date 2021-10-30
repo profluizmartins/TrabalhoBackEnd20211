@@ -9,28 +9,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_produto_estoque")
-public class ProdutoEstoque  implements Serializable{
+@Table(name = "tb_produto_estoque")
+public class ProdutoEstoque implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_produto_estoque")
+	@Column(name = "id_produto_estoque")
 	private Integer idProdutoEstoque;
-	
+
 	@ManyToOne
-	@JoinColumn(name="produto_id")
+	@JoinColumn(name = "produto_id")
 	private Produto produto;
-	
-	@Column(name="id_quantidade_estoque")
+
+	@Column(name = "id_quantidade_estoque")
 	private Integer qtdEstoque;
-	
-	@Column(name="id_quantidade_reservada")
+
+	@Column(name = "id_quantidade_reservada")
 	private Integer qtdReservada;
 
 	public ProdutoEstoque() {
@@ -76,6 +75,5 @@ public class ProdutoEstoque  implements Serializable{
 	public void setQtdReservada(Integer qtdReservada) {
 		this.qtdReservada = qtdReservada;
 	}
-	
 
 }
