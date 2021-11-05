@@ -21,7 +21,7 @@ public class PessoaJuridica implements Serializable{
 	@Column(name="id_pessoa_juridica")
 	private Integer idPessoaJuridica;
 	
-	private Long cnpj;
+	private String cnpj;
 	
 	private String atividade;
 
@@ -33,7 +33,7 @@ public class PessoaJuridica implements Serializable{
 		super();
 	}
 
-	public PessoaJuridica(Integer idPessoaJuridica, Long cnpj, String atividade, Pessoa pessoa) {
+	public PessoaJuridica(Integer idPessoaJuridica, String cnpj, String atividade, Pessoa pessoa) {
 		super();
 		this.idPessoaJuridica = idPessoaJuridica;
 		this.cnpj = cnpj;
@@ -49,11 +49,11 @@ public class PessoaJuridica implements Serializable{
 		this.idPessoaJuridica = idPessoaJuridica;
 	}
 
-	public Long getCnpj() {
+	public String getCnpj() {
 		return cnpj;
 	}
 
-	public void setCnpj(Long cnpj) {
+	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
 
@@ -71,6 +71,12 @@ public class PessoaJuridica implements Serializable{
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+	
+	@Override
+	public String toString() {
+		return "PessoaJuridica [idPessoaJuridica=" + idPessoaJuridica + ", cnpj=" + cnpj + ", atividade=" + atividade
+				+ ", pessoa=" + pessoa + "]";
 	}
 	
 }

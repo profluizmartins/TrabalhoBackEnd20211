@@ -45,13 +45,17 @@ public class Config implements CommandLineRunner {
         pessoaRepository.save(p2);
         pessoaRepository.save(p3);
 
-        PessoaJuridica pj1 = new PessoaJuridica(null, 11111111000111L,"Comercio", p1);
-
+        PessoaJuridica pj1 = new PessoaJuridica(null, "11111111000111","Comercio", p1);
+        PessoaJuridica pj2 = new PessoaJuridica(null, "22222222000222","Hotelaria", p2);
+        
         pessoaJuridicaRepository.save(pj1);
+        pessoaJuridicaRepository.save(pj2);
 
-        Entrada et1 = new Entrada(null, LocalDate.now(), pj1, true);
+        Entrada et1 = new Entrada(null, LocalDate.now(), pj1, true);    
+        Entrada et2 = new Entrada(null, LocalDate.now(), pj2, true);
 
         entradaRepository.save(et1);
+        entradaRepository.save(et2);
 
         Venda v1 = new Venda(null, p1, LocalDate.now(), true, TipoPagamento.get(1), 2);
 
