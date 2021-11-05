@@ -1,40 +1,47 @@
 package br.ufg.inf.fs.ctrl;
 
-import br.ufg.inf.fs.Messages;
-import br.ufg.inf.fs.business.UsuarioBusiness;
-import br.ufg.inf.fs.entities.Usuario;
-import br.ufg.inf.fs.exceptions.UsuarioException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import br.ufg.inf.fs.Messages;
+import br.ufg.inf.fs.business.UsuarioBusiness;
+import br.ufg.inf.fs.entities.Usuario;
+import br.ufg.inf.fs.exceptions.UsuarioException;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="usuarios")
+@RequestMapping(value = "usuarios")
 public class UsuarioCtrl {
     @Autowired
     UsuarioBusiness business;
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> findAll(){
+    public ResponseEntity<List<Usuario>> findAll() {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         List<Usuario> retorno = new ArrayList<Usuario>();
         try {
             retorno = business.findAll();
-            if(retorno.size() == 0){
+            if (retorno.size() == 0) {
                 headers.add("message", Messages.get("0300"));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }
@@ -43,16 +50,16 @@ public class UsuarioCtrl {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable String id){
+    public ResponseEntity<Usuario> findById(@PathVariable String id) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         Usuario retorno = new Usuario();
         try {
             retorno = business.findById(id);
-            if(retorno == null){
+            if (retorno == null) {
                 headers.add("message", Messages.get("0300"));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }
@@ -61,7 +68,7 @@ public class UsuarioCtrl {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> insert(@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> insert(@RequestBody Usuario usuario) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.CREATED;
 
@@ -79,7 +86,7 @@ public class UsuarioCtrl {
     }
 
     @PutMapping
-    public ResponseEntity<Usuario> update(@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> update(@RequestBody Usuario usuario) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
 
@@ -97,7 +104,7 @@ public class UsuarioCtrl {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id){
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         try {
@@ -111,16 +118,16 @@ public class UsuarioCtrl {
     }
 
     @GetMapping("/paginator")
-    public ResponseEntity<Page<Usuario>> paginatorFindAll(Pageable pageable){
+    public ResponseEntity<Page<Usuario>> paginatorFindAll(Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         Page<Usuario> retorno = null;
         try {
             retorno = business.paginatorFindAll(pageable);
-            if(retorno.getSize() == 0){
+            if (retorno.getSize() == 0) {
                 headers.add("message", Messages.get("0300"));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }

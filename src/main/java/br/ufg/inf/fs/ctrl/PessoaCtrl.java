@@ -1,21 +1,28 @@
 package br.ufg.inf.fs.ctrl;
 
-import br.ufg.inf.fs.Messages;
-import br.ufg.inf.fs.business.PessoaBusiness;
-import br.ufg.inf.fs.entities.Pessoa;
+import java.util.ArrayList;
+import java.util.List;
 
-import br.ufg.inf.fs.exceptions.PessoaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import br.ufg.inf.fs.Messages;
+import br.ufg.inf.fs.business.PessoaBusiness;
+import br.ufg.inf.fs.entities.Pessoa;
+import br.ufg.inf.fs.exceptions.PessoaException;
 
 @CrossOrigin
 @RestController
@@ -30,12 +37,12 @@ public class PessoaCtrl {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         List<Pessoa> retorno = new ArrayList<>();
-        try{
+        try {
             retorno = business.findAll();
-            if(retorno.size() == 0){
+            if (retorno.size() == 0) {
                 headers.add("message", Messages.get("0100"));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }
@@ -43,16 +50,16 @@ public class PessoaCtrl {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pessoa> findByID(@PathVariable Integer id){
+    public ResponseEntity<Pessoa> findByID(@PathVariable Integer id) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         Pessoa retorno = new Pessoa();
         try {
             retorno = business.findByID(id);
-            if(retorno == null){
+            if (retorno == null) {
                 headers.add("message", Messages.get("0100"));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }
@@ -60,16 +67,16 @@ public class PessoaCtrl {
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<List<Pessoa>> findByNome(@PathVariable String nome){
+    public ResponseEntity<List<Pessoa>> findByNome(@PathVariable String nome) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         List<Pessoa> retorno = new ArrayList<>();
-        try{
+        try {
             retorno = business.findByNome(nome);
-            if(retorno.size() == 0){
+            if (retorno.size() == 0) {
                 headers.add("message", Messages.get("0100"));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }
@@ -77,16 +84,16 @@ public class PessoaCtrl {
     }
 
     @GetMapping("/endereco/{endereco}")
-    public ResponseEntity<List<Pessoa>> findByEndereco(@PathVariable String endereco){
+    public ResponseEntity<List<Pessoa>> findByEndereco(@PathVariable String endereco) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         List<Pessoa> retorno = new ArrayList<>();
-        try{
+        try {
             retorno = business.findByEndereco(endereco);
-            if(retorno.size() == 0){
+            if (retorno.size() == 0) {
                 headers.add("message", Messages.get("0100"));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }
@@ -94,16 +101,16 @@ public class PessoaCtrl {
     }
 
     @PostMapping
-    public ResponseEntity<Pessoa> insert(@RequestBody Pessoa pessoa){
+    public ResponseEntity<Pessoa> insert(@RequestBody Pessoa pessoa) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.CREATED;
         try {
             pessoa = business.insert(pessoa);
             headers.add("message", Messages.get("0101"));
-        } catch (PessoaException e){
+        } catch (PessoaException e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get(e.getMessage()));
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
             headers.add("message", Messages.get("0102"));
         }
@@ -111,16 +118,16 @@ public class PessoaCtrl {
     }
 
     @PutMapping
-    public ResponseEntity<Pessoa> update(@RequestBody Pessoa pessoa){
+    public ResponseEntity<Pessoa> update(@RequestBody Pessoa pessoa) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         try {
             pessoa = business.update(pessoa);
             headers.add("message", Messages.get("0103"));
-        } catch (PessoaException e){
+        } catch (PessoaException e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get(e.getMessage()));
-        } catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
             headers.add("message", Messages.get("0104"));
         }
@@ -128,17 +135,16 @@ public class PessoaCtrl {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Pessoa> delete(@PathVariable Integer id){
+    public ResponseEntity<Pessoa> delete(@PathVariable Integer id) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         try {
             business.delete(id);
             headers.add("message", Messages.get("0105"));
-        } catch (PessoaException e){
+        } catch (PessoaException e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get(e.getMessage()));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
             headers.add("message", Messages.get("0106"));
         }
@@ -147,16 +153,16 @@ public class PessoaCtrl {
     }
 
     @GetMapping("/paginator")
-    public ResponseEntity<Page<Pessoa>> paginatorFindAll(Pageable pageable){
+    public ResponseEntity<Page<Pessoa>> paginatorFindAll(Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         Page<Pessoa> retorno = null;
         try {
             retorno = business.paginatorFindAll(pageable);
-            if(retorno.getSize() == 0){
+            if (retorno.getSize() == 0) {
                 headers.add("message", Messages.get("0100"));
             }
-        }   catch (Exception e){
+        } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }
