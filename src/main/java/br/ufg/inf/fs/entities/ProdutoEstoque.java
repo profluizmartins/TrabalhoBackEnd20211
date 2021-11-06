@@ -80,6 +80,11 @@ public class ProdutoEstoque  implements Serializable{
 	}
 
 	public void adicionarQtdReservada(Integer qtdReservada) {
+		if (this.getQtdReservada() + qtdReservada < 0) {
+			this.qtdReservada = 0;
+			return;
+		}
+
 		this.removerQtdEstoque(qtdReservada);
 		
 		this.qtdReservada += qtdReservada;
