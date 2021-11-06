@@ -13,32 +13,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufg.inf.fs.Messages;
-import br.ufg.inf.fs.business.VendaPagamentoBusiness;
-import br.ufg.inf.fs.entities.VendaPagamento;
+import br.ufg.inf.fs.business.VendaFaturaBusiness;
+import br.ufg.inf.fs.entities.VendaFatura;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "pagamentos")
-public class VendaPagamentoCtrl {
-
+@RequestMapping(value = "faturas")
+public class VendaFaturaCtrl {
     @Autowired
-    VendaPagamentoBusiness business;
+    VendaFaturaBusiness business;
 
-    @GetMapping
-    public ResponseEntity<List<VendaPagamento>> findAll() {
+    @GetMapping("/pagas")
+    public ResponseEntity<List<VendaFatura>> findAll() {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
-        List<VendaPagamento> retorno = new ArrayList<VendaPagamento>();
+        List<VendaFatura> retorno = new ArrayList<VendaFatura>();
         try {
-            retorno = business.getPagamentosRealizados();
+            retorno = business.getFaturasPagas();
             if (retorno.size() == 0) {
-                headers.add("message", Messages.get("1100"));
+                headers.add("message", Messages.get("1000"));
             }
         } catch (Exception e) {
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }
 
-        return new ResponseEntity<List<VendaPagamento>>(retorno, headers, status);
+        return new ResponseEntity<List<VendaFatura>>(retorno, headers, status);
     }
 }

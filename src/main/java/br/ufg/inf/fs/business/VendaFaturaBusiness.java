@@ -3,7 +3,6 @@ package br.ufg.inf.fs.business;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.ufg.inf.fs.entities.Venda;
@@ -38,6 +37,10 @@ public class VendaFaturaBusiness {
 
     public void insert(VendaFatura vf) {
         this.repository.save(vf);
+    }
+
+    public List<VendaFatura> getFaturasPagas() {
+        return this.repository.findFaturasPagas();
     }
 
 }
