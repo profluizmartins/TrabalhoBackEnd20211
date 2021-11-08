@@ -6,7 +6,8 @@ public enum Grupo {
 	REVESTIMENTO(3, "Kilo"),
 	LOUCAS(4, "Caixa"),
 	ESQUADRIAS(5, "Saco"),
-	TELHADO(6, "Metro");
+	TELHADO(6, "Metro"),
+	INFORMATICA(7, "Informatica");
 	
 	private int id;
 	private String value;

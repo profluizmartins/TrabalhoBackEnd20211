@@ -1,7 +1,9 @@
 package br.ufg.inf.fs;
 
 import br.ufg.inf.fs.entities.*;
+import br.ufg.inf.fs.enums.Grupo;
 import br.ufg.inf.fs.enums.TipoPagamento;
+import br.ufg.inf.fs.enums.UnidadeMedida;
 import br.ufg.inf.fs.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -29,6 +31,8 @@ public class Config implements CommandLineRunner {
     private VendaRepository vendaRepository;
     @Autowired
     private EntradaRepository entradaRepository;
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -77,7 +81,18 @@ public class Config implements CommandLineRunner {
         List<Regra> regras2 = new ArrayList<>();
 
         Usuario u2 = new Usuario("gabriel", "senha",p2, regras2);
+        
         usuarioRepository.save(u2);
+        
+        
+        Produto prod1 = new Produto(null, UnidadeMedida.UNIDADE, Grupo.INFORMATICA,"Mouse sem fio","Mouse sem fio",20.00);
+        Produto prod2 = new Produto(null, UnidadeMedida.UNIDADE, Grupo.INFORMATICA,"Teclado","Teclado",150.00);
+        Produto prod3 = new Produto(null, UnidadeMedida.UNIDADE, Grupo.INFORMATICA,"Monitor","Monitor",500.00);
+        Produto prod4 = new Produto(null, UnidadeMedida.UNIDADE, Grupo.INFORMATICA,"Processador","Processador",999.00);
+        produtoRepository.save(prod1);
+        produtoRepository.save(prod2);
+        produtoRepository.save(prod3);
+        produtoRepository.save(prod4);
 
     }
 }
