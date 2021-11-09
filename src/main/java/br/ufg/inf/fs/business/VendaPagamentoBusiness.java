@@ -1,11 +1,11 @@
 package br.ufg.inf.fs.business;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import br.ufg.inf.fs.entities.VendaPagamento;
 import br.ufg.inf.fs.repository.VendaPagamentoRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class VendaPagamentoBusiness {
@@ -23,15 +23,15 @@ public class VendaPagamentoBusiness {
         this.vendaPagamentoRepository.save(vPagamento);
     }
 
-    public String getRelatorioMensalPagamento() {
-        return "Balacobaco";
+    public List<VendaPagamento> getRelatorioMensalPagamento(int mesReferencia) {
+        return this.vendaPagamentoRepository.findVendaPagamentosByMes(mesReferencia);
     }
 
-    public String getPrevisao() {
-        return "Previsão";
+    public List<VendaPagamento> getRelatorioMensalPrevisao(int mesReferencia) {
+        return new ArrayList<>();
     }
 
-    public String getAtrasos() {
-        return "atrasos";
+    public List<VendaPagamento> getRelatorioMensalAtrasos(int mesReferencia) {
+        return this.vendaPagamentoRepository.findPagamentosAtrasadosByMes(mesReferencia);
     }
 }
