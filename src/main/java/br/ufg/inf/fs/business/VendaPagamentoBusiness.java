@@ -2,6 +2,7 @@ package br.ufg.inf.fs.business;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufg.inf.fs.entities.VendaPagamento;
@@ -9,29 +10,14 @@ import br.ufg.inf.fs.repository.VendaPagamentoRepository;
 
 @Service
 public class VendaPagamentoBusiness {
-    VendaPagamentoRepository vendaPagamentoRepository;
+    @Autowired
+    VendaPagamentoRepository repository;
 
     public List<VendaPagamento> getPagamentosRealizados() {
-        return this.vendaPagamentoRepository.findAll();
+        return this.repository.findAll();
     }
 
-    public List<VendaPagamento> getPagamentosPendentes() {
-        return this.vendaPagamentoRepository.findAll();
-    }
-
-    public void createPagamento(VendaPagamento vPagamento) {
-        this.vendaPagamentoRepository.save(vPagamento);
-    }
-
-    public String getRelatorioMensalPagamento() {
-        return "Balacobaco";
-    }
-
-    public String getPrevisao() {
-        return "Previsão";
-    }
-
-    public String getAtrasos() {
-        return "atrasos";
+    public void createPagamento(VendaPagamento vp) {
+        this.repository.save(vp);
     }
 }

@@ -8,9 +8,9 @@
 
 - [ ] Implementação em backend geração de faturas na conclusão da venda.
 
-- [ ] Deve pegar o valor total da venda (SOMA (Preço Unitário \* Quantidade)) e dividir pela quantidade de prestação. Cada prestação será referente a uma fatura, atualizada a data de vencimento.
+- [x] Deve pegar o valor total da venda (SOMA (Preço Unitário \* Quantidade)) e dividir pela quantidade de prestação. Cada prestação será referente a uma fatura, atualizada a data de vencimento.
 
-- [ ] Se Tipo Pagamento for Dinheiro, Cartão de Débito e PIX, aplicar desconto de 5%.
+- [x] Se Tipo Pagamento for Dinheiro, Cartão de Débito e PIX, aplicar desconto de 5%.
 
 - Telas
 

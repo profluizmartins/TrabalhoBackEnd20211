@@ -9,4 +9,7 @@ import br.ufg.inf.fs.entities.VendaFatura;
 public interface VendaFaturaRepository extends JpaRepository<VendaFatura, String> {
     @Query("SELECT vf FROM VendaFatura vf WHERE vf.quitado = true")
     public List<VendaFatura> findFaturasPagas();
+
+    @Query("SELECT vf FROM VendaFatura vf WHERE vf.quitado = false")
+    public List<VendaFatura> findFaturasPendentes();
 }

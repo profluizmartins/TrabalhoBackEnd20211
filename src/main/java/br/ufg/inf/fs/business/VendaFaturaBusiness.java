@@ -43,4 +43,7 @@ public class VendaFaturaBusiness {
         return this.repository.findFaturasPagas();
     }
 
+    public List<VendaFatura> getFaturasPendentes() {
+        return this.repository.findFaturasPagas();
+    }
 }
