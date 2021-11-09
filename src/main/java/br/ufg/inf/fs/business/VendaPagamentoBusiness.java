@@ -1,5 +1,6 @@
 package br.ufg.inf.fs.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,29 @@ import br.ufg.inf.fs.repository.VendaPagamentoRepository;
 @Service
 public class VendaPagamentoBusiness {
     @Autowired
-    VendaPagamentoRepository repository;
+    VendaPagamentoRepository vendaPagamentoRepository;
 
     public List<VendaPagamento> getPagamentosRealizados() {
-        return this.repository.findAll();
+        return this.vendaPagamentoRepository.findAll();
     }
 
-    public void createPagamento(VendaPagamento vp) {
-        this.repository.save(vp);
+    public List<VendaPagamento> getPagamentosPendentes() {
+        return this.vendaPagamentoRepository.findAll();
+    }
+
+    public void createPagamento(VendaPagamento vPagamento) {
+        this.vendaPagamentoRepository.save(vPagamento);
+    }
+
+    public List<VendaPagamento> getRelatorioMensalPagamento(int mesReferencia) {
+        return this.vendaPagamentoRepository.findVendaPagamentosByMes(mesReferencia);
+    }
+
+    public List<VendaPagamento> getRelatorioMensalPrevisao(int mesReferencia) {
+        return new ArrayList<>();
+    }
+
+    public List<VendaPagamento> getRelatorioMensalAtrasos(int mesReferencia) {
+        return this.vendaPagamentoRepository.findPagamentosAtrasadosByMes(mesReferencia);
     }
 }
