@@ -10,6 +10,6 @@ import java.util.List;
 public interface VendaRepository extends JpaRepository<Venda, Integer> {
 
     @Query("SELECT v FROM Venda v WHERE v.comprador.idPessoa = :id")
-    public List<VendaRepository> FindByIdComprador(@Param("id")Integer id);
+    public List<Venda> FindByIdComprador(@Param("id")Integer id);
 
 }
