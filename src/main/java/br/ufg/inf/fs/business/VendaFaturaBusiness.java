@@ -3,6 +3,8 @@ package br.ufg.inf.fs.business;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.ufg.inf.fs.entities.Venda;
@@ -18,7 +20,7 @@ public class VendaFaturaBusiness {
 
     public void createVendaFatura(Venda v) {
         // pegar valor de cada produto da venda depois e a
-        // quantidade e fazer somatório
+        // quantidade e fazer somatório        
         Double valorPrestacao = 1000.0 / v.getQtdPrestacao();
         Double desconto = 0.0;
 
@@ -37,6 +39,10 @@ public class VendaFaturaBusiness {
 
     public void insert(VendaFatura vf) {
         this.repository.save(vf);
+    }
+
+    public Page<VendaFatura> paginatorFindAll(Pageable pageable){
+        return repository.findAll(pageable);
     }
 
     public List<VendaFatura> getFaturasPagas() {

@@ -1,6 +1,7 @@
 package br.ufg.inf.fs.business;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,15 @@ public class VendaPagamentoBusiness {
     }
 
     public List<VendaPagamento> getPagamentosPendentes() {
-        return this.vendaPagamentoRepository.findAll();
+        return this.vendaPagamentoRepository.getPagamentosPendentes();
     }
 
     public void createPagamento(VendaPagamento vPagamento) {
+        // Date today = new Date();
+
+        // if(vPagamento.getDtPagamento().after(today)) {
+
+        // }
         this.vendaPagamentoRepository.save(vPagamento);
     }
 

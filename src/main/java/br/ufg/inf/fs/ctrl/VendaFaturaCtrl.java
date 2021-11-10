@@ -9,11 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufg.inf.fs.Messages;
 import br.ufg.inf.fs.business.VendaFaturaBusiness;
+import br.ufg.inf.fs.entities.Venda;
 import br.ufg.inf.fs.entities.VendaFatura;
 
 @CrossOrigin
@@ -39,5 +42,19 @@ public class VendaFaturaCtrl {
         }
 
         return new ResponseEntity<List<VendaFatura>>(retorno, headers, status);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createVendaFatura(@RequestBody Venda v) {
+        HttpHeaders headers = new HttpHeaders();
+        HttpStatus status = HttpStatus.OK;
+        try {
+            this.business.createVendaFatura(v);
+        } catch (Exception e) {
+            status = HttpStatus.BAD_REQUEST;
+            headers.add("message", Messages.get("0002"));
+        }
+        return new ResponseEntity<Void>(headers, status);
+
     }
 }

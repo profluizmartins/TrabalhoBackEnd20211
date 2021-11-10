@@ -6,7 +6,7 @@
 
 - [ ] Somente os usuários Admin e Financeiro
 
-- [ ] Implementação em backend geração de faturas na conclusão da venda.
+- [x] Implementação em backend geração de faturas na conclusão da venda.
 
 - [x] Deve pegar o valor total da venda (SOMA (Preço Unitário \* Quantidade)) e dividir pela quantidade de prestação. Cada prestação será referente a uma fatura, atualizada a data de vencimento.
 
