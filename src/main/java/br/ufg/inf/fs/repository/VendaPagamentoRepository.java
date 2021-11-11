@@ -9,13 +9,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface VendaPagamentoRepository extends JpaRepository<VendaPagamento, String> {
 
-    @Query("SELECT vp FROM VendaPagamento vp WHERE substring(vp.dtPagamento, 1, 4) = :mesReferencia")
+    @Query("SELECT vp FROM VendaPagamento vp WHERE month(vp.dtPagamento) = :mesReferencia")
     Page<VendaPagamento> findVendaPagamentosByMes(@Param("mesReferencia") int mesReferencia, Pageable pageable);
 
-    @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vlPagamento - vp.vendaFatura.valorVenda > 0 and substring(vp.dtPagamento, 1, 4) = :mesReferencia")
+    @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vlPagamento - vp.vendaFatura.valorVenda > 0 and month(vp.dtPagamento) = :mesReferencia")
     Page<VendaPagamento> findPagamentosAtrasadosByMes(@Param("mesReferencia") int mesReferencia, Pageable pageable);
 
-    @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vendaFatura.quitado = false and substring(vp.dtPagamento, 1, 4) = :mesReferencia")
+    @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vendaFatura.quitado = false and month(vp.dtPagamento) = :mesReferencia")
     Page<VendaPagamento> findPagamentosPrevisaoByMes(@Param("mesReferencia") int mesReferencia, Pageable pageable);
 
     @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vendaFatura.quitado = false")
