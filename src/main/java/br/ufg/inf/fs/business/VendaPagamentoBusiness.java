@@ -1,16 +1,22 @@
 package br.ufg.inf.fs.business;
 
+import br.ufg.inf.fs.entities.VendaFatura;
 import br.ufg.inf.fs.entities.VendaPagamento;
+import br.ufg.inf.fs.repository.VendaFaturaRepository;
 import br.ufg.inf.fs.repository.VendaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class VendaPagamentoBusiness {
     @Autowired
     VendaPagamentoRepository vendaPagamentoRepository;
+    @Autowired
+    VendaFaturaRepository vendaFaturaRepository;
 
     public Page<VendaPagamento> getPagamentosRealizados(Pageable pageable) {
         return this.vendaPagamentoRepository.findAll(pageable);
@@ -20,13 +26,17 @@ public class VendaPagamentoBusiness {
         return this.vendaPagamentoRepository.getPagamentosPendentes(pageable);
     }
 
-    public void createPagamento(VendaPagamento vPagamento) {
-        // Date today = new Date();
+    public VendaPagamento cadastrarPagamento(String idVenda, Date data, Double valor) {
 
-        // if(vPagamento.getDtPagamento().after(today)) {
+        VendaFatura vendaFatura = vendaFaturaRepository.getById(idVenda);
 
-        // }
-        this.vendaPagamentoRepository.save(vPagamento);
+        if (vendaFatura.getIdVendaFatura() == null) {
+            return null;
+        }
+
+        VendaPagamento vendaPagamento = new VendaPagamento(null, valor, data, vendaFatura);
+        return this.vendaPagamentoRepository.save(vendaPagamento);
+
     }
 
     public Page<VendaPagamento> getRelatorioMensalPagamento(int mesReferencia, Pageable pageable) {

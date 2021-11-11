@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "pagamentos")
@@ -89,5 +91,23 @@ public class VendaPagamentoCtrl {
         }
 
         return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
+    }
+
+    @PostMapping("cadastrarPagamento/{idVenda}")
+    public ResponseEntity<VendaPagamento> cadastrarPagamento(@PathVariable String idVenda, Date date, Double valor) {
+        HttpHeaders headers = new HttpHeaders();
+        HttpStatus status = HttpStatus.OK;
+        VendaPagamento retorno = null;
+        try {
+            retorno = business.cadastrarPagamento(idVenda, date, valor);
+            if (retorno == null) {
+                headers.add("message", Messages.get("1102"));
+            }
+        } catch (Exception e) {
+            status = HttpStatus.BAD_REQUEST;
+            headers.add("message", Messages.get("0002"));
+        }
+
+        return new ResponseEntity<VendaPagamento>(retorno, headers, status);
     }
 }
