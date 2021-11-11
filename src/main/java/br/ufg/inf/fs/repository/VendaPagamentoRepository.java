@@ -1,24 +1,27 @@
 package br.ufg.inf.fs.repository;
 
 import br.ufg.inf.fs.entities.VendaPagamento;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface VendaPagamentoRepository extends JpaRepository<VendaPagamento, String> {
 
     @Query("SELECT vp FROM VendaPagamento vp WHERE substring(vp.dtPagamento, 1, 4) = :mesReferencia")
-    List<VendaPagamento> findVendaPagamentosByMes(@Param("mesReferencia") int mesReferencia);
+    Page<VendaPagamento> findVendaPagamentosByMes(@Param("mesReferencia") int mesReferencia, Pageable pageable);
 
     @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vlPagamento - vp.vendaFatura.valorVenda > 0 and substring(vp.dtPagamento, 1, 4) = :mesReferencia")
-    List<VendaPagamento> findPagamentosAtrasadosByMes(@Param("mesReferencia") int mesReferencia);
+    Page<VendaPagamento> findPagamentosAtrasadosByMes(@Param("mesReferencia") int mesReferencia, Pageable pageable);
+
+    @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vendaFatura.quitado = false and substring(vp.dtPagamento, 1, 4) = :mesReferencia")
+    Page<VendaPagamento> findPagamentosPrevisaoByMes(@Param("mesReferencia") int mesReferencia, Pageable pageable);
 
     @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vendaFatura.quitado = false")
-    List<VendaPagamento> getPagamentosPendentes();
+    Page<VendaPagamento> getPagamentosPendentes(Pageable pageable);
 
     @Query("SELECT vp FROM VendaPagamento vp WHERE vp.vendaFatura.quitado = true")
-    List<VendaPagamento> getPagamentosRealizados();
+    Page<VendaPagamento> getPagamentosRealizados(Pageable pageable);
 
 }

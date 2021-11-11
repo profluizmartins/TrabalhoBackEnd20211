@@ -1,16 +1,15 @@
 package br.ufg.inf.fs.business;
 
-import java.util.List;
-
+import br.ufg.inf.fs.entities.Venda;
+import br.ufg.inf.fs.entities.VendaFatura;
+import br.ufg.inf.fs.enums.TipoPagamento;
+import br.ufg.inf.fs.repository.VendaFaturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.ufg.inf.fs.entities.Venda;
-import br.ufg.inf.fs.entities.VendaFatura;
-import br.ufg.inf.fs.enums.TipoPagamento;
-import br.ufg.inf.fs.repository.VendaFaturaRepository;
+import java.util.List;
 
 @Service
 public class VendaFaturaBusiness {
@@ -41,7 +40,7 @@ public class VendaFaturaBusiness {
         this.repository.save(vf);
     }
 
-    public Page<VendaFatura> paginatorFindAll(Pageable pageable){
+    public Page<VendaFatura> paginatorFindAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
@@ -49,7 +48,15 @@ public class VendaFaturaBusiness {
         return this.repository.findFaturasPagas();
     }
 
+    public Page<VendaFatura> getFaturasPagas(Pageable pageable) {
+        return this.repository.findFaturasPagas(pageable);
+    }
+
     public List<VendaFatura> getFaturasPendentes() {
-        return this.repository.findFaturasPagas();
+        return this.repository.findFaturasPendentes();
+    }
+
+    public Page<VendaFatura> getFaturasPendentes(Pageable pageable) {
+        return this.repository.findFaturasPendentes(pageable);
     }
 }

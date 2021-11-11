@@ -1,17 +1,15 @@
 package br.ufg.inf.fs.ctrl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import br.ufg.inf.fs.Messages;
+import br.ufg.inf.fs.business.VendaPagamentoBusiness;
+import br.ufg.inf.fs.entities.VendaPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import br.ufg.inf.fs.Messages;
-import br.ufg.inf.fs.business.VendaPagamentoBusiness;
-import br.ufg.inf.fs.entities.VendaPagamento;
 
 @CrossOrigin
 @RestController
@@ -22,13 +20,13 @@ public class VendaPagamentoCtrl {
     VendaPagamentoBusiness business;
 
     @GetMapping
-    public ResponseEntity<List<VendaPagamento>> findAll() {
+    public ResponseEntity<Page<VendaPagamento>> findAll(Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
-        List<VendaPagamento> retorno = new ArrayList<VendaPagamento>();
+        Page<VendaPagamento> retorno = null;
         try {
-            retorno = business.getPagamentosRealizados();
-            if (retorno.size() == 0) {
+            retorno = business.getPagamentosRealizados(pageable);
+            if (retorno.getTotalElements() == 0) {
                 headers.add("message", Messages.get("1100"));
             }
         } catch (Exception e) {
@@ -36,17 +34,17 @@ public class VendaPagamentoCtrl {
             headers.add("message", Messages.get("0002"));
         }
 
-        return new ResponseEntity<List<VendaPagamento>>(retorno, headers, status);
+        return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
     }
 
     @GetMapping("mensal/{mesReferencia}")
-    public ResponseEntity<List<VendaPagamento>> getRelatorioMensalPagamento(@PathVariable int mesReferencia) {
+    public ResponseEntity<Page<VendaPagamento>> getRelatorioMensalPagamento(@PathVariable int mesReferencia, Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
-        List<VendaPagamento> retorno = new ArrayList<VendaPagamento>();
+        Page<VendaPagamento> retorno = null;
         try {
-            retorno = business.getRelatorioMensalPagamento(mesReferencia);
-            if (retorno.size() == 0) {
+            retorno = business.getRelatorioMensalPagamento(mesReferencia, pageable);
+            if (retorno.getTotalElements() == 0) {
                 headers.add("message", Messages.get("1100"));
             }
         } catch (Exception e) {
@@ -54,17 +52,17 @@ public class VendaPagamentoCtrl {
             headers.add("message", Messages.get("0002"));
         }
 
-        return new ResponseEntity<List<VendaPagamento>>(retorno, headers, status);
+        return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
     }
 
     @GetMapping("mensal/atrasados/{mesReferencia}")
-    public ResponseEntity<List<VendaPagamento>> getRelatorioMensalAtrasos(@PathVariable int mesReferencia) {
+    public ResponseEntity<Page<VendaPagamento>> getRelatorioMensalAtrasos(@PathVariable int mesReferencia, Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
-        List<VendaPagamento> retorno = new ArrayList<VendaPagamento>();
+        Page<VendaPagamento> retorno = null;
         try {
-            retorno = business.getRelatorioMensalAtrasos(mesReferencia);
-            if (retorno.size() == 0) {
+            retorno = business.getRelatorioMensalAtrasos(mesReferencia, pageable);
+            if (retorno.getTotalElements() == 0) {
                 headers.add("message", Messages.get("1100"));
             }
         } catch (Exception e) {
@@ -72,17 +70,17 @@ public class VendaPagamentoCtrl {
             headers.add("message", Messages.get("0002"));
         }
 
-        return new ResponseEntity<List<VendaPagamento>>(retorno, headers, status);
+        return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
     }
 
     @GetMapping("mensal/previsao/{mesReferencia}")
-    public ResponseEntity<List<VendaPagamento>> getRelatorioMensalPrevisao(@PathVariable int mesReferencia) {
+    public ResponseEntity<Page<VendaPagamento>> getRelatorioMensalPrevisao(@PathVariable int mesReferencia, Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
-        List<VendaPagamento> retorno = new ArrayList<VendaPagamento>();
+        Page<VendaPagamento> retorno = null;
         try {
-            retorno = business.getRelatorioMensalPrevisao(mesReferencia);
-            if (retorno.size() == 0) {
+            retorno = business.getRelatorioMensalPrevisao(mesReferencia, pageable);
+            if (retorno.getTotalElements() == 0) {
                 headers.add("message", Messages.get("1100"));
             }
         } catch (Exception e) {
@@ -90,6 +88,6 @@ public class VendaPagamentoCtrl {
             headers.add("message", Messages.get("0002"));
         }
 
-        return new ResponseEntity<List<VendaPagamento>>(retorno, headers, status);
+        return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
     }
 }

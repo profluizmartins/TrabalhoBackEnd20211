@@ -1,26 +1,23 @@
 package br.ufg.inf.fs.business;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.ufg.inf.fs.entities.VendaPagamento;
 import br.ufg.inf.fs.repository.VendaPagamentoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 public class VendaPagamentoBusiness {
     @Autowired
     VendaPagamentoRepository vendaPagamentoRepository;
 
-    public List<VendaPagamento> getPagamentosRealizados() {
-        return this.vendaPagamentoRepository.findAll();
+    public Page<VendaPagamento> getPagamentosRealizados(Pageable pageable) {
+        return this.vendaPagamentoRepository.findAll(pageable);
     }
 
-    public List<VendaPagamento> getPagamentosPendentes() {
-        return this.vendaPagamentoRepository.getPagamentosPendentes();
+    public Page<VendaPagamento> getPagamentosPendentes(Pageable pageable) {
+        return this.vendaPagamentoRepository.getPagamentosPendentes(pageable);
     }
 
     public void createPagamento(VendaPagamento vPagamento) {
@@ -32,15 +29,15 @@ public class VendaPagamentoBusiness {
         this.vendaPagamentoRepository.save(vPagamento);
     }
 
-    public List<VendaPagamento> getRelatorioMensalPagamento(int mesReferencia) {
-        return this.vendaPagamentoRepository.findVendaPagamentosByMes(mesReferencia);
+    public Page<VendaPagamento> getRelatorioMensalPagamento(int mesReferencia, Pageable pageable) {
+        return this.vendaPagamentoRepository.findVendaPagamentosByMes(mesReferencia, pageable);
     }
 
-    public List<VendaPagamento> getRelatorioMensalPrevisao(int mesReferencia) {
-        return new ArrayList<>();
+    public Page<VendaPagamento> getRelatorioMensalPrevisao(int mesReferencia, Pageable pageable) {
+        return this.vendaPagamentoRepository.findPagamentosPrevisaoByMes(mesReferencia, pageable);
     }
 
-    public List<VendaPagamento> getRelatorioMensalAtrasos(int mesReferencia) {
-        return this.vendaPagamentoRepository.findPagamentosAtrasadosByMes(mesReferencia);
+    public Page<VendaPagamento> getRelatorioMensalAtrasos(int mesReferencia, Pageable pageable) {
+        return this.vendaPagamentoRepository.findPagamentosAtrasadosByMes(mesReferencia, pageable);
     }
 }
