@@ -2,6 +2,7 @@ package br.ufg.inf.fs.ctrl;
 
 import br.ufg.inf.fs.Messages;
 import br.ufg.inf.fs.business.VendaPagamentoBusiness;
+import br.ufg.inf.fs.dto.CadastroVendaPagamentoDto;
 import br.ufg.inf.fs.entities.VendaPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,8 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -131,13 +130,14 @@ public class VendaPagamentoCtrl {
     }
 
     @PostMapping("cadastrarPagamento/{idVendaFatura}")
-    public ResponseEntity<VendaPagamento> cadastrarPagamento(@PathVariable Integer idVendaFatura, Date date, Double valor) {
+    public ResponseEntity<Void> cadastrarPagamento(@PathVariable Integer idVendaFatura, @RequestBody CadastroVendaPagamentoDto dto) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         VendaPagamento retorno = null;
         try {
-            retorno = business.cadastrarPagamento(idVendaFatura, date, valor);
+            retorno = business.cadastrarPagamento(idVendaFatura, dto);
             if (retorno == null) {
+                status = HttpStatus.NOT_FOUND;
                 headers.add("message", Messages.get("1102"));
             }
         } catch (Exception e) {
@@ -146,6 +146,6 @@ public class VendaPagamentoCtrl {
             headers.add("message", Messages.get("0002"));
         }
 
-        return new ResponseEntity<VendaPagamento>(retorno, headers, status);
+        return new ResponseEntity<Void>(headers, status);
     }
 }

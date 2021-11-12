@@ -1,5 +1,6 @@
 package br.ufg.inf.fs.business;
 
+import br.ufg.inf.fs.dto.CadastroVendaPagamentoDto;
 import br.ufg.inf.fs.entities.VendaFatura;
 import br.ufg.inf.fs.entities.VendaPagamento;
 import br.ufg.inf.fs.repository.VendaFaturaRepository;
@@ -26,15 +27,15 @@ public class VendaPagamentoBusiness {
         return this.vendaPagamentoRepository.getPagamentosPendentes(pageable);
     }
 
-    public VendaPagamento cadastrarPagamento(Integer idVenda, Date data, Double valor) {
+    public VendaPagamento cadastrarPagamento(Integer idVenda, CadastroVendaPagamentoDto dto) {
 
-        VendaFatura vendaFatura = vendaFaturaRepository.getById(idVenda);
+        VendaFatura vendaFatura = this.vendaFaturaRepository.getById(idVenda);
 
-        if (vendaFatura.getIdVendaFatura() == null) {
+        if (vendaFatura.getValorVenda() == null) {
             return null;
         }
 
-        VendaPagamento vendaPagamento = new VendaPagamento(null, valor, data, vendaFatura);
+        VendaPagamento vendaPagamento = new VendaPagamento(null, dto.getValor(), dto.getDate(), vendaFatura);
         return this.vendaPagamentoRepository.save(vendaPagamento);
 
     }
