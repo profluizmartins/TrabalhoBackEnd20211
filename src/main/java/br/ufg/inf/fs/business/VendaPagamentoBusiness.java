@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class VendaPagamentoBusiness {
@@ -35,7 +37,9 @@ public class VendaPagamentoBusiness {
             return null;
         }
 
-        VendaPagamento vendaPagamento = new VendaPagamento(null, dto.getValor(), dto.getDate(), vendaFatura);
+        Double vencimento = calcularVencimento(dto.getDate(), vendaFatura.getDataVencimento(), dto.getValor());
+
+        VendaPagamento vendaPagamento = new VendaPagamento(null, dto.getValor()+vencimento, dto.getDate(), vendaFatura);
         return this.vendaPagamentoRepository.save(vendaPagamento);
 
     }
@@ -50,5 +54,24 @@ public class VendaPagamentoBusiness {
 
     public Page<VendaPagamento> getRelatorioMensalAtrasos(int mesReferencia, Pageable pageable) {
         return this.vendaPagamentoRepository.findPagamentosAtrasadosByMes(mesReferencia, pageable);
+    }
+
+    Double calcularVencimento(Date dataPagamento, Date dataFatura, Double valor) {
+        Calendar calPagamento = Calendar.getInstance();
+        Calendar calFatura = Calendar.getInstance();
+        calPagamento.setTime(dataPagamento);
+        calFatura.setTime(dataFatura);
+        long dias = TimeUnit.MILLISECONDS.toDays(Math.abs(calPagamento.getTimeInMillis() - calFatura.getTimeInMillis()));
+        double valorVencimento = 0.0;
+        if (dias > 0) {
+            valorVencimento = valor + (valor * 0.1);
+        } else {
+            return 0.0;
+        }
+
+        for (int dia = 1; dia < dias; dia++) {
+            valorVencimento = valorVencimento + (valorVencimento * 0.005);
+        }
+        return valorVencimento - valor;
     }
 }
