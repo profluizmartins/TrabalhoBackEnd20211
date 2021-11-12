@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface VendaFaturaRepository extends JpaRepository<VendaFatura, String> {
+public interface VendaFaturaRepository extends JpaRepository<VendaFatura, Integer> {
     @Query("SELECT vf FROM VendaFatura vf WHERE vf.quitado = true")
     public List<VendaFatura> findFaturasPagas();
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "pagamentos")
 public class VendaPagamentoCtrl {
@@ -23,6 +23,43 @@ public class VendaPagamentoCtrl {
 
     @GetMapping
     public ResponseEntity<Page<VendaPagamento>> findAll(Pageable pageable) {
+        HttpHeaders headers = new HttpHeaders();
+        HttpStatus status = HttpStatus.OK;
+        Page<VendaPagamento> retorno = null;
+        try {
+            retorno = business.getPagamentosRealizados(pageable);
+            if (retorno.getTotalElements() == 0) {
+                headers.add("message", Messages.get("1100"));
+            }
+        } catch (Exception e) {
+            status = HttpStatus.BAD_REQUEST;
+            headers.add("message", Messages.get("0002"));
+        }
+
+        return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
+    }
+
+
+    @GetMapping("pendentes")
+    public ResponseEntity<Page<VendaPagamento>> getPagamentosPendentes(Pageable pageable) {
+        HttpHeaders headers = new HttpHeaders();
+        HttpStatus status = HttpStatus.OK;
+        Page<VendaPagamento> retorno = null;
+        try {
+            retorno = business.getPagamentosPendentes(pageable);
+            if (retorno.getTotalElements() == 0) {
+                headers.add("message", Messages.get("1100"));
+            }
+        } catch (Exception e) {
+            status = HttpStatus.BAD_REQUEST;
+            headers.add("message", Messages.get("0002"));
+        }
+
+        return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
+    }
+
+    @GetMapping("aprovados")
+    public ResponseEntity<Page<VendaPagamento>> getPagamentosAprovados(Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         Page<VendaPagamento> retorno = null;
@@ -93,17 +130,18 @@ public class VendaPagamentoCtrl {
         return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
     }
 
-    @PostMapping("cadastrarPagamento/{idVenda}")
-    public ResponseEntity<VendaPagamento> cadastrarPagamento(@PathVariable String idVenda, Date date, Double valor) {
+    @PostMapping("cadastrarPagamento/{idVendaFatura}")
+    public ResponseEntity<VendaPagamento> cadastrarPagamento(@PathVariable Integer idVendaFatura, Date date, Double valor) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
         VendaPagamento retorno = null;
         try {
-            retorno = business.cadastrarPagamento(idVenda, date, valor);
+            retorno = business.cadastrarPagamento(idVendaFatura, date, valor);
             if (retorno == null) {
                 headers.add("message", Messages.get("1102"));
             }
         } catch (Exception e) {
+            System.out.println(e);
             status = HttpStatus.BAD_REQUEST;
             headers.add("message", Messages.get("0002"));
         }

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface VendaPagamentoRepository extends JpaRepository<VendaPagamento, String> {
+public interface VendaPagamentoRepository extends JpaRepository<VendaPagamento, Integer> {
 
     @Query("SELECT vp FROM VendaPagamento vp WHERE month(vp.dtPagamento) = :mesReferencia")
     Page<VendaPagamento> findVendaPagamentosByMes(@Param("mesReferencia") int mesReferencia, Pageable pageable);

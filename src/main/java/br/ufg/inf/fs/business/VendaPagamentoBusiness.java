@@ -26,7 +26,7 @@ public class VendaPagamentoBusiness {
         return this.vendaPagamentoRepository.getPagamentosPendentes(pageable);
     }
 
-    public VendaPagamento cadastrarPagamento(String idVenda, Date data, Double valor) {
+    public VendaPagamento cadastrarPagamento(Integer idVenda, Date data, Double valor) {
 
         VendaFatura vendaFatura = vendaFaturaRepository.getById(idVenda);
 
