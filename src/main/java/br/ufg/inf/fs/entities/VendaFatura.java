@@ -1,6 +1,7 @@
 package br.ufg.inf.fs.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,21 +30,28 @@ public class VendaFatura implements Serializable {
 	@Column(name = "valor_venda")
 	private Double valorVenda;
 
+	@Column(name = "quitado")
 	private Boolean quitado;
 
+	@Column(name = "desconto")
 	private Double desconto;
+
+	@Column(name= "data_vencimento")
+	private Date dataVencimento;
+
 
 	public VendaFatura() {
 		super();
 	}
 
-	public VendaFatura(Integer idVendaFatura, Venda venda, Double valorVenda, Boolean quitado, Double desconto) {
+	public VendaFatura(Integer idVendaFatura, Venda venda, Double valorVenda, Boolean quitado, Double desconto, Date dataVencimento) {
 		super();
 		this.idVendaFatura = idVendaFatura;
 		this.venda = venda;
 		this.valorVenda = valorVenda;
 		this.quitado = quitado;
 		this.desconto = desconto;
+		this.dataVencimento = dataVencimento;
 	}
 
 	public Integer getIdVendaFatura() {
@@ -84,6 +92,14 @@ public class VendaFatura implements Serializable {
 
 	public void setDesconto(Double desconto) {
 		this.desconto = desconto;
+	}
+	
+	public Date getDataVencimento() {
+		return dataVencimento;
+	}
+
+	public void setDataVencimento(Date dataVencimento) {
+		this.dataVencimento = dataVencimento;
 	}
 
 }
