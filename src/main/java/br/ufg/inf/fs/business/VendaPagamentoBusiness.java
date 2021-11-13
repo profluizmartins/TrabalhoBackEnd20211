@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class VendaPagamentoBusiness {
@@ -23,8 +24,16 @@ public class VendaPagamentoBusiness {
         return this.vendaPagamentoRepository.findAll(pageable);
     }
 
+    public List<VendaPagamento> getPagamentosRealizadosAll() {
+        return this.vendaPagamentoRepository.findAll();
+    }
+
     public Page<VendaPagamento> getPagamentosPendentes(Pageable pageable) {
         return this.vendaPagamentoRepository.getPagamentosPendentes(pageable);
+    }
+
+    public List<VendaPagamento> getPagamentosPendentesAll() {
+        return this.vendaPagamentoRepository.getPagamentosPendentesAll();
     }
 
     public VendaPagamento cadastrarPagamento(Integer idVenda, CadastroVendaPagamentoDto dto) {

@@ -4,6 +4,9 @@ import br.ufg.inf.fs.Messages;
 import br.ufg.inf.fs.business.VendaPagamentoBusiness;
 import br.ufg.inf.fs.dto.CadastroVendaPagamentoDto;
 import br.ufg.inf.fs.entities.VendaPagamento;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +42,7 @@ public class VendaPagamentoCtrl {
     }
 
 
-    @GetMapping("pendentes")
+    @GetMapping("pendentes/paginador")
     public ResponseEntity<Page<VendaPagamento>> getPagamentosPendentes(Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
@@ -57,7 +60,25 @@ public class VendaPagamentoCtrl {
         return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
     }
 
-    @GetMapping("aprovados")
+    @GetMapping("pendentes")
+    public ResponseEntity<List<VendaPagamento>> getPagamentosPendentesAll() {
+        HttpHeaders headers = new HttpHeaders();
+        HttpStatus status = HttpStatus.OK;
+        List<VendaPagamento> retorno = null;
+        try {
+            retorno = business.getPagamentosPendentesAll();
+            if (retorno.size() == 0) {
+                headers.add("message", Messages.get("1100"));
+            }
+        } catch (Exception e) {
+            status = HttpStatus.BAD_REQUEST;
+            headers.add("message", Messages.get("0002"));
+        }
+
+        return new ResponseEntity<List<VendaPagamento>>(retorno, headers, status);
+    }
+
+    @GetMapping("aprovados/paginador")
     public ResponseEntity<Page<VendaPagamento>> getPagamentosAprovados(Pageable pageable) {
         HttpHeaders headers = new HttpHeaders();
         HttpStatus status = HttpStatus.OK;
@@ -73,6 +94,24 @@ public class VendaPagamentoCtrl {
         }
 
         return new ResponseEntity<Page<VendaPagamento>>(retorno, headers, status);
+    }
+
+    @GetMapping("aprovados")
+    public ResponseEntity<List<VendaPagamento>> getPagamentosAprovadosAll() {
+        HttpHeaders headers = new HttpHeaders();
+        HttpStatus status = HttpStatus.OK;
+        List<VendaPagamento> retorno = null;
+        try {
+            retorno = business.getPagamentosRealizadosAll();
+            if (retorno.size() == 0) {
+                headers.add("message", Messages.get("1100"));
+            }
+        } catch (Exception e) {
+            status = HttpStatus.BAD_REQUEST;
+            headers.add("message", Messages.get("0002"));
+        }
+
+        return new ResponseEntity<List<VendaPagamento>>(retorno, headers, status);
     }
 
     @GetMapping("mensal/{mesReferencia}")
